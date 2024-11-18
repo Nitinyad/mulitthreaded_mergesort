@@ -88,9 +88,10 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <algorithm>
 #include <pthread.h>
 
-using namespace std;
+// using namespace std;
 
 // Wrapper for the recursive call to pass to pthread_create
 struct ThreadArgs {
@@ -106,18 +107,19 @@ void* threadFunction(void* args) {
     return nullptr;
 }
 
-ParallelMergeSort::ParallelMergeSort(vector<int>* nums)
+ParallelMergeSort::ParallelMergeSort(std::vector<int>* nums)
     : nums(nums) {}
 
 ParallelMergeSort::~ParallelMergeSort() {}
 
 void ParallelMergeSort::recursiveSort(int left, int right) {
-    const int THRESHOLD = 5000;
+    const int THRESHOLD = 8000;
 
-    // if (right - left < THRESHOLD) {
-    //     sort(nums->begin() + left, nums->begin() + right + 1);
-    //     return;
-    // }
+    if (right - left < THRESHOLD) {
+        std::sort(nums->begin() + left, nums->begin() + right + 1);
+        return;
+    }
+
 
     if (left >= right) {
         return;
@@ -134,13 +136,16 @@ void ParallelMergeSort::recursiveSort(int left, int right) {
     pthread_create(&thread1, nullptr, threadFunction, args1);
     pthread_create(&thread2, nullptr, threadFunction, args2);
 
+    
+
     // Join threads
     pthread_join(thread1, nullptr);
     pthread_join(thread2, nullptr);
 
     // Merge results
-    vector<int> result;
-    int i = left, j = mid + 1;
+    std::vector<int> result;
+    int i = left;
+    int j = mid + 1;
 
     while (i <= mid && j <= right) {
         if ((*nums)[i] <= (*nums)[j]) {
@@ -162,17 +167,21 @@ void ParallelMergeSort::recursiveSort(int left, int right) {
         j++;
     }
 
-    for (size_t k = 0; k < result.size(); k++) {
+    for (int k = 0; k < result.size(); k++) {
         (*nums)[left + k] = result[k];
     }
 }
 
 void ParallelMergeSort::sort() {
-    if ((*nums).empty()) {
+    if ((*nums).size() ==0 ) {
         exit(1);
     }
 
-    for(int i = 0; i < (*nums).size() ; i++){
-        cout << (*nums)[i] << endl;
-    }
+
+    pthread_t thread1;
+    int n = (*nums).size();
+    // Prepare arguments for threads
+    ThreadArgs* args1 = new ThreadArgs{this, 0 , n - 1};
+    pthread_create(&thread1, nullptr, threadFunction, args1);
+    pthread_join(thread1, nullptr);
 }
