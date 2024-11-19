@@ -28,4 +28,5 @@ but if array size is exceeded then we make a thread
 
 here is the comparsion btw multithreaded mergesort and simple mergesort 
 
-![multithrededmergesort](https://github.com/user-attachments/assets/4cfcff5e-7e89-4afb-9677-4ccbac1eb551)
+![multithrededmergesort](https://github.com/user-attachments/assets/8ec1ef16-479a-449b-af22-8a9faac865fb)
+
