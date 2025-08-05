@@ -1,6 +1,6 @@
-# Multithreaded Merge Sort in C 
+# Multithreaded Merge Sort in C++
 
-This project demonstrates a comparison between a **standard (single-threaded)** merge sort and a **multithreaded merge sort** using the **POSIX threads (`pthread`)** library in C.
+This project demonstrates a comparison between a **standard (single-threaded)** merge sort and a **multithreaded merge sort** using the **POSIX threads (`pthread`)** library in C++.
 
 Multithreading helps optimize performance for large datasets by running recursive sort operations in parallel.
 
@@ -22,7 +22,7 @@ To speed up the process, we create **separate threads for sorting the left and r
 #### Step 1: Include the `pthread` Library
 Use the POSIX Threads library to enable multithreading:
 
-```c
+```cpp
 #include <pthread.h>
 ```
 
@@ -78,7 +78,7 @@ A clear comparison between multithreaded and single-threaded merge sort for larg
 
 ## Tech Stack
 
-- Language: **C**
+- Language: **C++**
 - Library: **POSIX Threads (`pthread`)**
 - Compiler: `gcc` (with `-pthread` flag)
 
