@@ -15,7 +15,7 @@ The standard merge sort algorithm recursively calls the sort function for the le
 
 ---
 
-### 🔹 Multithreaded Merge Sort (Using `pthread`)
+### Multithreaded Merge Sort (Using `pthread`)
 
 To speed up the process, we create **separate threads for sorting the left and right halves** of the array. Here’s how it works:
 
