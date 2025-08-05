@@ -1,71 +1,94 @@
 # Multithreaded Merge Sort in C++
 
-This project implements a comparison between a **standard single-threaded merge sort** and a **multithreaded version** using POSIX Threads (`pthread`) in C++.
+This project demonstrates a comparison between a **standard (single-threaded)** merge sort and a **multithreaded merge sort** using the **POSIX threads (`pthread`)** library in C++.
+
+Multithreading helps optimize performance for large datasets by running recursive sort operations in parallel.
 
 ---
 
-## Overview
+## Concept Overview
 
-Merge sort is a classic divide-and-conquer sorting algorithm. The single-threaded version recursively sorts both halves sequentially.
+### Normal Merge Sort (Single Threaded)
+The standard merge sort algorithm recursively calls the sort function for the left and right halves **sequentially in a single thread**.
 
-The multithreaded version splits large arrays into two halves and sorts them concurrently using separate threads. Threads are joined before merging the sorted halves.
+![Normal Merge Sort](https://github.com/user-attachments/assets/17b26930-1471-4e80-9cee-0c42b419b1c6)
 
 ---
 
-## How It Works
+### Multithreaded Merge Sort (Using `pthread`)
 
-### 1. Include the `pthread` Library  
-Enable multithreading support:
+To speed up the process, we create **separate threads for sorting the left and right halves** of the array. Here’s how it works:
+
+#### Step 1: Include the `pthread` Library
+Use the POSIX Threads library to enable multithreading:
+
 ```cpp
 #include <pthread.h>
 ```
 
-### 2. Thread Parameter Struct  
-Define a structure to pass array pointers and index ranges (`low`, `high`) into thread functions.
+#### Step 2: Create Threads
 
-### 3. Threaded Recursive Sort  
-Each thread executes the recursive sorting function on its assigned subarray.
+We define a structure to pass parameters like array pointer, left index, and right index into threads:
 
-### 4. Thread Joining  
-Use `pthread_join()` to wait for threads to finish before merging sorted subarrays.
+![Creating Thread Struct](https://github.com/user-attachments/assets/0f2645f6-fe30-4390-b9a4-0232e04d24a6)
+
+Then create threads for sorting each half:
+
+![Creating New Threads](https://github.com/user-attachments/assets/b4226221-2df8-4ac3-84bf-b978fa42a70d)
+
+#### Step 3: Thread Function
+
+Each thread runs a recursive sort on its portion of the array:
+
+![Thread Function](https://github.com/user-attachments/assets/027bd136-6e0a-4b35-8cbf-fa0fab5f92cf)
+
+#### Step 4: Join Threads
+
+We use `pthread_join()` to ensure that one thread waits for another to finish execution. This is necessary to merge sorted subarrays safely.
+
+![Joining Threads](https://github.com/user-attachments/assets/8935297e-558a-4f0a-9ad7-1dd84824b0d7)
 
 ---
 
 ## Threshold Optimization
 
-To minimize thread creation overhead, sorting falls back to the single-threaded version when array size < threshold (e.g. 5000 elements). For larger arrays, the algorithm leverages multithreading for faster performance.
+To avoid unnecessary overhead from creating too many threads for small arrays, we define a **threshold size** (e.g., 5000 elements).  
+- If the array size is **less than the threshold**, we perform normal merge sort.  
+- If it is **greater**, we use multithreading to parallelize sorting.
+
+![Threshold Logic](https://github.com/user-attachments/assets/6789f4b7-0ef9-4fe5-8e92-8ce79a815217)
 
 ---
 
 ## Performance Comparison
 
-Benchmark results highlight how the multithreaded implementation significantly improves sorting time for large inputs compared to the sequential version.
+A clear comparison between multithreaded and single-threaded merge sort for large arrays:
+
+![Performance Comparison](https://github.com/user-attachments/assets/8ec1ef16-479a-449b-af22-8a9faac865fb)
 
 ---
 
 ## Features
 
-- **Single-threaded merge sort** for baseline comparison  
-- **Multithreaded merge sort** using POSIX threads  
-- **Adaptive threshold** to balance overhead and performance  
-- **Benchmarking** for performance evaluation
+- Efficient parallel sorting using threads  
+- Threshold-based optimization to avoid thread overhead  
+- Comparison benchmarking for single vs multithreaded performance
 
 ---
 
 ## Tech Stack
 
-- Language: **C++**  
-- Library: **POSIX Threads (`pthread`)**  
-- Compiler: `g++` or `gcc` with `-pthread` flag
+- Language: **C++**
+- Library: **POSIX Threads (`pthread`)**
+- Compiler: `gcc` (with `-pthread` flag)
 
 ---
 
-## Usage
+## How to Run
 
-Compile and run with:
 ```bash
-g++ -pthread -o parallel_sort src/app/*.cpp
-./parallel_sort
+gcc mergesort.c -o mergesort -pthread
+./mergesort
 ```
 
----
+--- 
