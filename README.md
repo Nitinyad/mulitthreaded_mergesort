@@ -1,4 +1,4 @@
-# Multithreaded Merge Sort in C using `pthreads`
+# Multithreaded Merge Sort in C 
 
 This project demonstrates a comparison between a **standard (single-threaded)** merge sort and a **multithreaded merge sort** using the **POSIX threads (`pthread`)** library in C.
 
