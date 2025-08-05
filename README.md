@@ -78,17 +78,18 @@ A clear comparison between multithreaded and single-threaded merge sort for larg
 
 ## Tech Stack
 
-- Language: **C++**
-- Library: **POSIX Threads (`pthread`)**
-- Compiler: `gcc` (with `-pthread` flag)
+- Language: **C++**  
+- Library: **POSIX Threads (`pthread`)**  
+- Compiler: `g++` or `gcc` with `-pthread` flag
 
 ---
 
 ## How to Run
 
+Compile and run with:
 ```bash
-gcc mergesort.c -o mergesort -pthread
-./mergesort
+g++ -pthread -o parallel_sort src/app/*.cpp
+./parallel_sort
 ```
 
 --- 
